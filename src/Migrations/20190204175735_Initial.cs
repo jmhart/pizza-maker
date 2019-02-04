@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PizzaApp.Migrations
@@ -11,7 +11,8 @@ namespace PizzaApp.Migrations
                 name: "Pizzas",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Size = table.Column<string>(nullable: true),
                     Crust = table.Column<string>(nullable: true),
                     Cheese = table.Column<string>(nullable: true),
@@ -26,7 +27,8 @@ namespace PizzaApp.Migrations
                 name: "Toppings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true)
                 },
@@ -39,8 +41,8 @@ namespace PizzaApp.Migrations
                 name: "PizzaTopping",
                 columns: table => new
                 {
-                    PizzaId = table.Column<Guid>(nullable: false),
-                    ToppingId = table.Column<Guid>(nullable: false)
+                    PizzaId = table.Column<int>(nullable: false),
+                    ToppingId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
