@@ -1,4 +1,7 @@
+import { PizzaService } from './../services/pizza.service';
+import { ToppingService } from './../services/topping.service';
 import { Component, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-pizza-form',
@@ -7,23 +10,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PizzaFormComponent implements OnInit {
 
-  toppings = [
-    'Pepperoni',
-    'Beef',
-    'Sausage',
-    'Bacon',
-    'Anchovies',
-    'Mushrooms',
-    'Tomatoes',
-    'Pineapple',
-    'Onions',
-    'Black Olives',
-    'Jalapeno peppers',
-    'Green peppers'
-  ]
-  constructor() { }
+  toppings = []
+
+  pizza = {
+    id: 0,
+    size: '',
+    crust: '',
+    cheese: '',
+    sauce: '',
+    toppings: []
+  }
+
+  constructor(private toppingService: ToppingService
+    , private pizzaService: PizzaService) {
+    this.toppings = toppingService.getToppings();
+    this.toppings.map(x => x.checked = false);
+    console.log(this.toppings);
+  }
 
   ngOnInit() {
   }
 
+  toggleTopping() {
+    let toppings = this.toppings.filter(x => x.checked);
+    this.pizza.toppings = toppings;
+    console.log(this.pizza.toppings);
+  }
+
+  post() {
+    this.pizzaService.post(this.pizza).subscribe(x => {
+      console.log(x);
+    });
+  }
 }
