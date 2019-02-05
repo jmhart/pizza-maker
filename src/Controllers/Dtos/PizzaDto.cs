@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using PizzaApp.Models;
 
 namespace src.Controllers.Dtos
 {
@@ -9,7 +11,8 @@ namespace src.Controllers.Dtos
         public string Crust { get; set; }
         public string Cheese { get; set; }
         public string Sauce { get; set; }
-        public List<ToppingDto> Toppings { get; set; }
+        public IEnumerable<ToppingDto> Toppings { get; set; }
+
     }
 
 }

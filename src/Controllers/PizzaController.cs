@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
 using PizzaApp.Models;
 using src.Controllers.Dtos;
@@ -19,6 +21,52 @@ namespace src.Controllers
             this.context = context;
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PizzaDto>> Get(int id)
+        {
+            var pizza = await context.Pizzas
+                .Include(p => p.PizzaToppings)
+                    .ThenInclude(pt => pt.Topping)
+                .Select(p => new PizzaDto()
+                {
+                    Id = p.Id,
+                    Size = p.Size,
+                    Crust = p.Crust,
+                    Cheese = p.Cheese,
+                    Sauce = p.Sauce,
+                    Toppings = p.PizzaToppings.Select(pt => new ToppingDto()
+                    {
+                        Id = pt.ToppingId,
+                        Name = pt.Topping.Name,
+                        Category = pt.Topping.Category
+                    })
+                })
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (pizza == null)
+                return NotFound();
+
+            return pizza;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<PizzaDto>>> Get()
+        {
+            var pizzas = await context.Pizzas
+                .Select(p => new PizzaDto()
+                {
+                    Id = p.Id,
+                    Size = p.Size,
+                    Crust = p.Crust,
+                    Cheese = p.Cheese,
+                    Sauce = p.Sauce,
+                })
+                .ToListAsync();
+
+            return pizzas;
+        }
+
+        [HttpPost]
         public async Task<ActionResult<PizzaDto>> Post(PizzaDto pizzaDto)
         {
             var pizza = new Pizza()
@@ -32,14 +80,13 @@ namespace src.Controllers
                 {
                     PizzaId = pizzaDto.Id,
                     ToppingId = t.Id
-                })
-                .ToList()
+                }).ToList()
             };
 
             await context.AddAsync(pizza);
             await context.SaveChangesAsync();
 
-            return Created()
+            return Ok();
         }
     }
 }
