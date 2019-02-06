@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PizzaFormComponent } from './pizza-form/pizza-form.component';
+import { PizzaComponent } from './pizza/pizza.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PizzaFormComponent } from './pizza-form/pizza-form.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    PizzaFormComponent
+    PizzaFormComponent,
+    PizzaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -26,8 +28,8 @@ import { PizzaFormComponent } from './pizza-form/pizza-form.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'pizzas', component: PizzaComponent },
+      { path: 'pizza/new', component: PizzaFormComponent },
     ])
   ],
   providers: [],
