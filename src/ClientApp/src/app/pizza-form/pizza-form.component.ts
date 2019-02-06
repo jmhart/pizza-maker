@@ -37,9 +37,13 @@ export class PizzaFormComponent implements OnInit {
     console.log(this.pizza.toppings);
   }
 
-  post() {
+  submit() {
     this.pizzaService.post(this.pizza).subscribe(x => {
       console.log(x);
+      alert("Pizza created!");
+    }, error => {
+      console.log(error);
+      alert("Error");
     });
   }
 }

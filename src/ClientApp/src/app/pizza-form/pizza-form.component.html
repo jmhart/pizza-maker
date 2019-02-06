@@ -2,38 +2,38 @@
 
 {{ pizza | json }}
 
-<form>
+<form (ngSubmit)="submit()" #pizzaForm="ngForm">
   <div class="form-group">
-    <label for="exampleFormControlSelect1">Size</label>
-    <select [(ngModel)]="pizza.size" name="size" class="form-control" id="exampleFormControlSelect1">
+    <label for="sizeInput">Size</label>
+    <select required [(ngModel)]="pizza.size" name="size" id="sizeInput" class="form-control">
       <option>Small</option>
-      <option>Medium</option>
+      <option value="Medium" selected>Medium</option>
       <option>Large</option>
       <option>Extra Large</option>
     </select>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlSelect1">Crust</label>
-    <select [(ngModel)]="pizza.crust" name="crust" class="form-control" id="exampleFormControlSelect1">
+    <label for="crustInput">Crust</label>
+    <select required [(ngModel)]="pizza.crust" name="crust" id="crustInput" class="form-control">
       <option>Thin</option>
-      <option>Hand Tossed</option>
+      <option selected>Hand Tossed</option>
       <option>Pan</option>
       <option>Brooklyn</option>
     </select>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlSelect1">Sauce</label>
-    <select [(ngModel)]="pizza.sauce" name="crust" class="form-control" id="exampleFormControlSelect1">
-      <option>Marinara</option>
+    <label for="sauceInput">Sauce</label>
+    <select required [(ngModel)]="pizza.sauce" name="sauce" id="sauceInput" class="form-control">
+      <option selected>Marinara</option>
       <option>BBQ</option>
       <option>Alfredo</option>
       <option>Olive Oil</option>
     </select>
   </div>
   <div class="form-group">
-    <label for="exampleFormControlSelect1">Cheese</label>
-    <select [(ngModel)]="pizza.cheese" name="cheese" class="form-control" id="exampleFormControlSelect1">
-      <option>Regular</option>
+    <label for="cheeseInput">Cheese</label>
+    <select required [(ngModel)]="pizza.cheese" name="cheese" id="cheeseInput" class="form-control">
+      <option selected>Regular</option>
       <option>Light</option>
       <option>Extra</option>
       <option>None</option>
@@ -43,6 +43,5 @@
   <div *ngFor="let topping of toppings" class="form-check">
     <input (change)="toggleTopping()" [(ngModel)]="topping.checked" name="topping" class="form-check-input" type="checkbox">{{topping.name}}
   </div>
+  <button [disabled]="!pizzaForm.form.valid" type="submit" class="btn btn-primary">Create</button>
 </form>
-
-<button (click)="post()" class="btn-primary">Create</button>
