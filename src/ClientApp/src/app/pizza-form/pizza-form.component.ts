@@ -23,12 +23,13 @@ export class PizzaFormComponent implements OnInit {
 
   constructor(private toppingService: ToppingService
     , private pizzaService: PizzaService) {
-    this.toppings = toppingService.getToppings();
-    this.toppings.map(x => x.checked = false);
-    console.log(this.toppings);
+
   }
 
   ngOnInit() {
+    this.toppings = this.toppingService.getToppings();
+    this.toppings.map(x => x.checked = false);
+    console.log(this.toppings);
   }
 
   toggleTopping() {
