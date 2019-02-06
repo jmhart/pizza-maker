@@ -53,6 +53,8 @@ namespace src.Controllers
         public async Task<ActionResult<List<PizzaDto>>> Get()
         {
             var pizzas = await context.Pizzas
+                .Include(p => p.PizzaToppings)
+                    .ThenInclude(pt => pt.Topping)
                 .Select(p => new PizzaDto()
                 {
                     Id = p.Id,
@@ -60,6 +62,12 @@ namespace src.Controllers
                     Crust = p.Crust,
                     Cheese = p.Cheese,
                     Sauce = p.Sauce,
+                    Toppings = p.PizzaToppings.Select(pt => new ToppingDto()
+                    {
+                        Id = pt.Topping.Id,
+                        Name = pt.Topping.Name,
+                        Category = pt.Topping.Category
+                    })
                 })
                 .ToListAsync();
 
